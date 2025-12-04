@@ -1,0 +1,14 @@
+/* Print optimization to ensure background colors show up */
+@media print {
+    body { -webkit-print-color-adjust: exact; }
+    .no-print { display: none; }
+}
+
+/* Custom scrollbar for inner sections if needed */
+.poster-section::-webkit-scrollbar {
+    width: 6px;
+}
+.poster-section::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+}
