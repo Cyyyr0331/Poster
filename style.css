@@ -12,3 +12,89 @@
     background-color: #cbd5e1;
     border-radius: 4px;
 }
+
+/* --- Animations --- */
+
+/* 1. Liquid Ion Floating Effect */
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-1px, 3px); }
+    75% { transform: translate(-2px, -1px); }
+}
+
+.ion-float {
+    animation: float 4s infinite ease-in-out;
+}
+/* Staggered delays */
+.ion-float:nth-of-type(1) { animation-delay: 0s; }
+.ion-float:nth-of-type(2) { animation-delay: 0.8s; }
+.ion-float:nth-of-type(3) { animation-delay: 1.5s; }
+.ion-float:nth-of-type(4) { animation-delay: 2.2s; }
+.ion-float:nth-of-type(5) { animation-delay: 3s; }
+
+/* 2. Dendrite Growth Effect */
+.dendrite-grow {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: draw-dendrite 3s infinite ease-in-out;
+}
+
+@keyframes draw-dendrite {
+    0% { stroke-dashoffset: 30; opacity: 0.5; }
+    50% { stroke-dashoffset: 0; opacity: 1; }
+    80% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; } /* Fade out to restart */
+}
+
+/* 3. Red Pulse Warning Effect */
+@keyframes pulse-red {
+    0% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+    100% { opacity: 0.3; transform: scale(1); }
+}
+
+.pulse-red {
+    animation: pulse-red 1.5s infinite ease-in-out;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+/* 4. Bar Chart Growth */
+@keyframes bar-grow {
+    from { height: 0 !important; }
+}
+
+.bar-anim {
+    animation: bar-grow 1.5s ease-out forwards;
+}
+
+/* 5. Tree Branch Animation */
+@keyframes branch-grow {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+}
+
+.tree-branch {
+    transform-origin: left;
+    animation: branch-grow 0.8s ease-out forwards;
+}
+
+.tree-leaf {
+    opacity: 0;
+    animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes fade-in {
+    to { opacity: 1; }
+}
+
+/* Staggered delays for tree items */
+.tree-group:nth-child(1) .tree-branch { animation-delay: 0.2s; }
+.tree-group:nth-child(1) .tree-leaf { animation-delay: 0.6s; }
+
+.tree-group:nth-child(2) .tree-branch { animation-delay: 0.8s; }
+.tree-group:nth-child(2) .tree-leaf { animation-delay: 1.2s; }
+
+.tree-group:nth-child(3) .tree-branch { animation-delay: 1.4s; }
+.tree-group:nth-child(3) .tree-leaf { animation-delay: 1.8s; }

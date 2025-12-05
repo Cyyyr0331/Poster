@@ -25,6 +25,58 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const articles = document.querySelectorAll('article');
+            
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-black/60 z-50 hidden transition-opacity duration-300 opacity-0 backdrop-blur-sm flex items-center justify-center p-4';
+            document.body.appendChild(overlay);
+
+            // Zoom Container
+            const zoomCard = document.createElement('div');
+            zoomCard.className = 'bg-white rounded-lg shadow-2xl w-auto max-w-[90vw] transform transition-all duration-300 scale-90 opacity-0 max-h-[90vh] overflow-y-auto';
+            overlay.appendChild(zoomCard);
+
+            // Close function
+            const closeZoom = () => {
+                overlay.classList.remove('opacity-100');
+                zoomCard.classList.remove('scale-100', 'opacity-100');
+                zoomCard.classList.add('scale-90', 'opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    zoomCard.innerHTML = '';
+                }, 300);
+            };
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeZoom();
+            });
+
+            articles.forEach(article => {
+                // Add hover hint
+                article.classList.add('cursor-pointer', 'transition-transform', 'duration-200', 'hover:scale-105', 'hover:shadow-xl', 'hover:z-10', 'relative');
+                
+                article.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent bubbling
+                    
+                    // Clone content
+                    const content = article.innerHTML;
+                    // Use CSS zoom for proportional scaling (works in Chrome/Edge/Safari)
+                    zoomCard.innerHTML = `<div class="p-8 h-full" style="zoom: 1.5;">${content}</div>`;
+                    
+                    // Show
+                    overlay.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        overlay.classList.add('opacity-100');
+                        zoomCard.classList.remove('scale-90', 'opacity-0');
+                        zoomCard.classList.add('scale-100', 'opacity-100');
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8 font-sans text-gray-800">
 
@@ -58,13 +110,13 @@
         </header>
 
         <!-- MAIN GRID CONTENT -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 md:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 md:p-5">
 
             <!-- COLUMN 1: THE PROBLEM & BASICS -->
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
                 
                 <!-- Section 1: Introduction -->
-                <article class="border-2 border-gray-200 rounded-lg p-5 bg-academic-light hover:shadow-md transition-shadow">
+                <article class="border-2 border-gray-200 rounded-lg p-4 bg-academic-light hover:shadow-md transition-shadow">
                     <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">01</span> The Engineering Problem
                     </h3>
@@ -88,7 +140,7 @@
                 </article>
 
                 <!-- Section 2: Background Science -->
-                <article class="border-2 border-gray-200 rounded-lg p-5 h-full">
+                <article class="border-2 border-gray-200 rounded-lg p-4 h-full">
                     <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">02</span> Background & Mechanism
                     </h3>
@@ -113,11 +165,11 @@
                                 <rect x="10" y="100" width="100" height="20" fill="#4b5563" rx="2" />
                                 <text x="60" y="114" text-anchor="middle" font-size="8" fill="white">Anode (-)</text>
                                 <!-- Liquid Electrolyte (Chaos) -->
-                                <circle cx="30" cy="55" r="3" fill="#3b82f6" opacity="0.6"/>
-                                <circle cx="50" cy="80" r="3" fill="#3b82f6" opacity="0.6"/>
-                                <circle cx="80" cy="60" r="3" fill="#3b82f6" opacity="0.6"/>
-                                <circle cx="40" cy="90" r="3" fill="#3b82f6" opacity="0.6"/>
-                                <circle cx="90" cy="85" r="3" fill="#3b82f6" opacity="0.6"/>
+                                <circle class="ion-float" cx="30" cy="55" r="3" fill="#3b82f6" opacity="0.6"/>
+                                <circle class="ion-float" cx="50" cy="80" r="3" fill="#3b82f6" opacity="0.6"/>
+                                <circle class="ion-float" cx="80" cy="60" r="3" fill="#3b82f6" opacity="0.6"/>
+                                <circle class="ion-float" cx="40" cy="90" r="3" fill="#3b82f6" opacity="0.6"/>
+                                <circle class="ion-float" cx="90" cy="85" r="3" fill="#3b82f6" opacity="0.6"/>
                                 <path d="M10,70 Q60,50 110,70" stroke="#f87171" stroke-width="2" stroke-dasharray="4,2" fill="none" />
                                 <text x="60" y="70" text-anchor="middle" font-size="8" fill="#d32f2f">Separator (Risk)</text>
                             </g>
@@ -147,10 +199,10 @@
             </div>
 
             <!-- COLUMN 2: CHALLENGES & SOLUTIONS -->
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
                 
                 <!-- Section 3: Engineering Challenges -->
-                <article class="border-2 border-gray-200 rounded-lg p-5 h-auto">
+                <article class="border-2 border-gray-200 rounded-lg p-4 h-auto">
                     <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">03</span> Key Challenges
                     </h3>
@@ -164,9 +216,9 @@
                                 <rect x="10" y="30" width="80" height="30" fill="#93c5fd" /> <!-- Electrolyte -->
                                 <rect x="10" y="60" width="80" height="10" fill="#1e3a8a" /> <!-- Cathode -->
                                 <!-- Dendrites (Spikes) -->
-                                <path d="M30,30 L30,50 M38,30 L38,45" stroke="#ef4444" stroke-width="2" stroke-linecap="round" fill="none" />
-                                <path d="M70,30 L70,62" stroke="#ef4444" stroke-width="2" stroke-linecap="round" fill="none" />
-                                <circle cx="70" cy="62" r="3" fill="#ef4444" /> <!-- Short circuit -->
+                                <path class="dendrite-grow" d="M30,30 L30,50 M38,30 L38,45" stroke="#ef4444" stroke-width="2" stroke-linecap="round" fill="none" />
+                                <path class="dendrite-grow" d="M70,30 L70,62" stroke="#ef4444" stroke-width="2" stroke-linecap="round" fill="none" />
+                                <circle class="pulse-red" cx="70" cy="62" r="3" fill="#ef4444" /> <!-- Short circuit -->
                             </svg>
                         </div>
                         <div class="w-2/3">
@@ -186,9 +238,9 @@
                                         <text x="100" y="18" text-anchor="middle" font-size="8" fill="#1e3a8a" font-weight="bold">Solid Electrolyte</text>
                                         <path d="M10,55 L190,55 L190,35 L180,32 L170,38 L160,33 L150,37 L140,32 L130,36 L120,33 L110,38 L100,34 L90,37 L80,33 L70,38 L60,34 L50,37 L40,33 L30,38 L20,34 L10,35 Z" fill="#4b5563" />
                                         <text x="100" y="48" text-anchor="middle" font-size="8" fill="white">Electrode Material</text>
-                                        <text x="100" y="31" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="bold">VOIDS = RESISTANCE</text>
-                                        <circle cx="45" cy="30" r="2" fill="#ef4444" />
-                                        <circle cx="155" cy="30" r="2" fill="#ef4444" />
+                                        <text class="pulse-red" x="100" y="31" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="bold">VOIDS = RESISTANCE</text>
+                                        <circle class="pulse-red" cx="45" cy="30" r="2" fill="#ef4444" />
+                                        <circle class="pulse-red" cx="155" cy="30" r="2" fill="#ef4444" />
                                     </svg>
                                 </div>
                             </div>
@@ -201,7 +253,7 @@
                 </article>
 
                 <!-- Section 4: Innovative Solutions -->
-                <article class="border-2 border-gray-200 rounded-lg p-5 flex-1 bg-gradient-to-br from-white to-blue-50">
+                <article class="border-2 border-gray-200 rounded-lg p-4 flex-1 bg-gradient-to-br from-white to-blue-50">
                     <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">04</span> Novel Approaches
                     </h3>
@@ -243,29 +295,29 @@
             </div>
 
             <!-- COLUMN 3: EVIDENCE & IMPACT -->
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
                 
                 <!-- Section 5: Testing Data -->
-                <article class="border-2 border-gray-200 rounded-lg p-5">
+                <article class="border-2 border-gray-200 rounded-lg p-4">
                     <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">05</span> Testing Data
                     </h3>
                     
-                    <div class="mb-4">
+                    <div class="mb-2">
                         <h4 class="text-xs font-bold uppercase text-gray-500 mb-1 text-center">Energy Density Comparison (Wh/kg)</h4>
                         <!-- CSS Bar Chart -->
                         <div class="flex items-end h-32 gap-4 px-4 border-b border-gray-300 pb-1">
                             <div class="w-1/2 flex flex-col justify-end group h-full">
                                 <div class="text-center text-xs font-bold mb-1">250</div>
                                 <div class="flex-1 w-full flex items-end">
-                                    <div class="bg-blue-500 w-full rounded-t hover:bg-blue-600 transition-colors" style="height: 50%"></div>
+                                    <div class="bg-blue-500 w-full rounded-t hover:bg-blue-600 transition-colors bar-anim" style="height: 50%"></div>
                                 </div>
                                 <div class="text-center text-xs mt-1">Liquid Li-ion</div>
                             </div>
                             <div class="w-1/2 flex flex-col justify-end group h-full">
                                 <div class="text-center text-xs font-bold mb-1 text-orange-600">450+</div>
                                 <div class="flex-1 w-full flex items-end">
-                                    <div class="bg-orange-500 w-full rounded-t hover:bg-orange-600 transition-colors relative" style="height: 90%">
+                                    <div class="bg-orange-500 w-full rounded-t hover:bg-orange-600 transition-colors relative bar-anim" style="height: 90%">
                                         <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs font-bold">+80%</span>
                                     </div>
                                 </div>
@@ -290,54 +342,89 @@
                 </article>
 
                 <!-- Section 6: Applications -->
-                <article class="border-2 border-gray-200 rounded-lg p-5">
-                    <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-3">
+                <article class="border-2 border-gray-200 rounded-lg p-4">
+                    <h3 class="text-xl font-bold text-academic-blue border-b-2 border-gray-300 pb-2 mb-2">
                         <span class="bg-academic-blue text-white px-2 py-1 rounded text-sm mr-2">06</span> Applications
                     </h3>
-                    <div class="flex justify-around items-center text-center">
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-1">
-                                <i class="fas fa-car-side"></i>
+                    <div class="flex flex-col gap-2 h-full justify-start pt-1">
+                        
+                        <!-- Tree 1: EVs -->
+                        <div class="tree-group flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm z-10 shrink-0">
+                                <i class="fas fa-car-side text-lg"></i>
                             </div>
-                            <span class="text-xs font-bold">1000km Range EVs</span>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-1">
-                                <i class="fas fa-plane"></i>
+                            <div class="flex-1 flex items-center">
+                                <div class="h-0.5 bg-blue-300 w-8 tree-branch relative">
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                                </div>
+                                <div class="ml-2 text-xs tree-leaf border-l-2 border-blue-200 pl-2">
+                                    <div class="font-bold text-gray-800">1000km Range EVs</div>
+                                    <div class="text-gray-500 text-[10px]">Eliminate Range Anxiety - Fast Charge</div>
+                                </div>
                             </div>
-                            <span class="text-xs font-bold">Electric Aviation</span>
                         </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-1">
-                                <i class="fas fa-mobile-alt"></i>
+
+                        <!-- Tree 2: Aviation -->
+                        <div class="tree-group flex items-center gap-2 pl-8">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shadow-sm z-10 shrink-0">
+                                <i class="fas fa-plane text-lg"></i>
                             </div>
-                            <span class="text-xs font-bold">Consumer Electronics</span>
+                            <div class="flex-1 flex items-center">
+                                <div class="h-0.5 bg-orange-300 w-8 tree-branch relative">
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
+                                </div>
+                                <div class="ml-2 text-xs tree-leaf border-l-2 border-orange-200 pl-2">
+                                    <div class="font-bold text-gray-800">Electric Aviation</div>
+                                    <div class="text-gray-500 text-[10px]">High Energy Density - Safety</div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Tree 3: Electronics -->
+                        <div class="tree-group flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shadow-sm z-10 shrink-0">
+                                <i class="fas fa-mobile-alt text-lg"></i>
+                            </div>
+                            <div class="flex-1 flex items-center">
+                                <div class="h-0.5 bg-green-300 w-8 tree-branch relative">
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                                </div>
+                                <div class="ml-2 text-xs tree-leaf border-l-2 border-green-200 pl-2">
+                                    <div class="font-bold text-gray-800">Consumer Electronics</div>
+                                    <div class="text-gray-500 text-[10px]">Slimmer - Flexible - All-Day Life</div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </article>
 
                 <!-- Section 7: Ethics & Sustainability -->
-                <article class="border-2 border-green-200 bg-green-50 rounded-lg p-5">
+                <article class="border-2 border-green-200 bg-green-50 rounded-lg p-4">
                     <h3 class="text-xl font-bold text-green-800 border-b-2 border-green-300 pb-2 mb-3">
                         <span class="bg-green-700 text-white px-2 py-1 rounded text-sm mr-2">07</span> Ethics & Sustainability
                     </h3>
-                    <div class="flex gap-3">
-                        <div class="text-green-600 text-3xl">
+                    <div class="flex items-center gap-2">
+                        <div class="text-green-600 text-4xl">
                             <i class="fas fa-recycle"></i>
                         </div>
-                        <div class="text-sm">
-                            <p class="mb-2"><strong>Resource Use:</strong> Eliminating Graphite anodes reduces mining impact.</p>
+                        <div class="text-sm flex-1">
+                            <p class="mb-1"><strong>Resource Use:</strong> Eliminating Graphite anodes reduces mining impact.</p>
                             <p><strong>Recycling:</strong> Solid components are easier to separate than liquid toxic sludge, supporting the <em>Unit 2 Smart City</em> circular economy.</p>
                         </div>
                     </div>
                 </article>
-
-                <!-- References -->
-                <div class="text-[10px] text-gray-500 text-right mt-auto">
-                    <p><strong>References:</strong>[1] Nature Energy (2024), [2] Toyota Research Institute Reports, [3] QuantumScape Public Data.</p>
-                </div>
             </div>
 
+        </div>
+
+
+
+        <!-- References Footer -->
+        <div class="px-4 md:px-5 pb-4 md:pb-5">
+            <div class="text-[10px] text-gray-500 text-center border-t border-gray-200 pt-2">
+                <p><strong>References:</strong> [1] Nature Energy (2024) &bull; [2] Toyota Research Institute Reports &bull; [3] QuantumScape Public Data</p>
+            </div>
         </div>
 
         <!-- Footer Decoration -->
