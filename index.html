@@ -329,13 +329,23 @@
                     <div>
                         <h4 class="text-xs font-bold uppercase text-gray-500 mb-1 text-center">Fast Charging (0-80%)</h4>
                         <div class="flex items-center gap-2 text-sm bg-gray-50 p-2 rounded">
-                            <div class="flex-1 text-center border-r border-gray-300">
+                            <div class="flex-1 flex flex-col items-center border-r border-gray-300">
                                 <div class="text-gray-400">Current</div>
-                                <div class="font-bold text-xl">40 min</div>
+                                <div class="flex items-center justify-center">
+                                    <div class="font-bold text-xl">40 min</div>
+                                    <div class="battery" title="Slow Charging">
+                                        <div class="battery-level slow-charge"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex-1 text-center">
+                            <div class="flex-1 flex flex-col items-center">
                                 <div class="text-accent-orange font-bold">Future SSB</div>
-                                <div class="font-bold text-xl text-accent-orange">10 min</div>
+                                <div class="flex items-center justify-center">
+                                    <div class="font-bold text-xl text-accent-orange">10 min</div>
+                                    <div class="battery" title="Fast Charging">
+                                        <div class="battery-level fast-charge"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

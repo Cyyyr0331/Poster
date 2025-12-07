@@ -98,3 +98,47 @@
 
 .tree-group:nth-child(3) .tree-branch { animation-delay: 1.4s; }
 .tree-group:nth-child(3) .tree-leaf { animation-delay: 1.8s; }
+
+/* 6. Battery Charging Animation */
+.battery {
+    width: 24px;
+    height: 12px;
+    border: 2px solid #666;
+    border-radius: 2px;
+    position: relative;
+    padding: 1px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+.battery::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 2px;
+    width: 2px;
+    height: 4px;
+    background: #666;
+    border-radius: 0 1px 1px 0;
+}
+.battery-level {
+    height: 100%;
+    width: 0%;
+}
+
+@keyframes charge {
+    0% { width: 0%; opacity: 0.5; }
+    20% { opacity: 1; }
+    90% { width: 100%; opacity: 1; }
+    100% { width: 100%; opacity: 0.5; }
+}
+
+.slow-charge {
+    animation: charge 4s linear infinite;
+    background: #9ca3af; /* gray-400 for slower/older tech */
+}
+
+.fast-charge {
+    animation: charge 1s linear infinite;
+    background: #f97316; /* accent-orange for fast/new tech */
+}
