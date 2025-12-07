@@ -35,9 +35,8 @@
             document.body.appendChild(overlay);
 
             // Zoom Container
-            const defaultZoomClasses = 'bg-white rounded-lg shadow-2xl w-auto max-w-[90vw] transform transition-all duration-300 scale-90 opacity-0 max-h-[90vh] overflow-y-auto';
             const zoomCard = document.createElement('div');
-            zoomCard.className = defaultZoomClasses;
+            zoomCard.className = 'bg-white rounded-lg shadow-2xl w-auto max-w-[90vw] transform transition-all duration-300 scale-90 opacity-0 max-h-[90vh] overflow-y-auto';
             overlay.appendChild(zoomCard);
 
             // Close function
@@ -48,12 +47,11 @@
                 setTimeout(() => {
                     overlay.classList.add('hidden');
                     zoomCard.innerHTML = '';
-                    zoomCard.className = defaultZoomClasses; // Reset classes
                 }, 300);
             };
 
             overlay.addEventListener('click', (e) => {
-                closeZoom();
+                if (e.target === overlay) closeZoom();
             });
 
             articles.forEach(article => {
@@ -63,162 +61,26 @@
                 article.addEventListener('click', (e) => {
                     e.stopPropagation(); // Prevent bubbling
                     
-                    // Clone content
-                    const content = article.innerHTML;
-                    
-                    // Check if it is Section 1, 2, 3, 4, 5 or 7
+                    // Identify Section
                     const h3 = article.querySelector('h3');
                     const sectionTitle = h3 ? h3.innerText : '';
-                    const isSection1 = sectionTitle.includes('01');
                     const isSection2 = sectionTitle.includes('02');
                     const isSection3 = sectionTitle.includes('03');
-                    const isSection4 = sectionTitle.includes('04');
-                    const isSection5 = sectionTitle.includes('05');
-                    const isSection6 = sectionTitle.includes('06');
-                    const isSection7 = sectionTitle.includes('07');
 
-                    if (isSection1) {
-                        // Special layout for Section 1 with 3 surrounding images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                                <!-- Floating Image 1 (Top Left) -->
-                                <img src="thermal-runaway.jpg" class="absolute top-[5%] left-[5%] w-64 md:w-[28rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="Thermal Runaway">
-                                
-                                <!-- Floating Image 2 (Top Right) -->
-                                <img src="range-anxiety.jpg" class="absolute top-[5%] right-[5%] w-64 md:w-[28rem] rounded-lg shadow-2xl float-img-2 z-0 object-cover border-4 border-white hidden md:block" alt="Range Anxiety">
-                                
-                                <!-- Floating Image 3 (Bottom Center) -->
-                                <img src="charger-queues.jpg" class="absolute bottom-[-5%] left-1/2 transform -translate-x-1/2 w-80 md:w-[36rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="Charger Queues">
-
-                                <!-- Central Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 max-w-3xl max-h-[60%] overflow-y-auto relative border-t-4 border-academic-blue" style="zoom: 1.2;">
-                                    ${content}
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection2) {
-                        // Special layout for Section 2 with floating images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                                <!-- Floating Image 1 (Top Left) -->
-                                <img src="liquid-electrolyte.jpg" class="absolute top-[5%] left-[5%] w-48 md:w-96 rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="Liquid Electrolyte Structure">
-                                
-                                <!-- Floating Image 2 (Bottom Right) -->
-                                <img src="solid-state-battery.jpg" class="absolute bottom-[5%] right-[5%] w-48 md:w-96 rounded-lg shadow-2xl float-img-2 z-0 object-cover border-4 border-white hidden md:block" alt="Solid State Battery Structure">
-
-                                <!-- Central Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 max-w-3xl max-h-full overflow-y-auto relative border-t-4 border-academic-blue" style="zoom: 1.2;">
-                                    ${content}
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection3) {
-                        // Special layout for Section 3 with floating images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                                <!-- Floating Image 1 (Top Left) -->
-                                <img src="challenge-dendrites.jpg" class="absolute top-[2%] left-[2%] w-56 md:w-[28rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="Dendrite Formation">
-                                
-                                <!-- Floating Image 2 (Bottom Right) -->
-                                <img src="challenge-resistance.jpg" class="absolute bottom-[2%] right-[2%] w-56 md:w-[28rem] rounded-lg shadow-2xl float-img-2 z-0 object-cover border-4 border-white hidden md:block" alt="Interfacial Resistance">
-
-                                <!-- Central Content Card - Smaller size -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 max-w-3xl max-h-full overflow-y-auto relative border-t-4 border-academic-blue" style="zoom: 1.2;">
-                                    ${content}
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection4) {
-                        // Special layout for Section 4: Side-by-side
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex flex-col md:flex-row items-center justify-center gap-8 p-8">
-                                <!-- Left: Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 w-full md:w-1/2 max-h-full overflow-y-auto border-t-4 border-academic-blue" style="zoom: 1.2;">
-                                    ${content}
-                                </div>
-                                
-                                <!-- Right: Image -->
-                                <div class="w-full md:w-1/2 h-full flex items-center justify-center">
-                                    <img src="solution-comparison.jpg" class="rounded-lg shadow-2xl object-contain max-h-full max-w-full border-4 border-white float-img-1" alt="Comparison of Solutions">
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection5) {
-                        // Special layout for Section 5: 3 Floating Images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                                <!-- Floating Image 1 (Top Left) -->
-                                <img src="energy-density-data.jpg" class="absolute top-[2%] left-[2%] w-64 md:w-[32rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="Energy Density Data">
-                                
-                                <!-- Floating Image 2 (Top Right) -->
-                                <img src="fast-charge-data.jpg" class="absolute top-[2%] right-[2%] w-64 md:w-[32rem] rounded-lg shadow-2xl float-img-2 z-0 object-cover border-4 border-white hidden md:block" alt="Fast Charge Data">
-                                
-                                <!-- Floating Image 3 (Bottom Center) -->
-                                <img src="quantumscape-arch.jpg" class="absolute bottom-[-5%] left-[35%] transform -translate-x-1/2 w-72 md:w-[36rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="QuantumScape Architecture">
-
-                                <!-- Central Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 max-w-3xl max-h-[55%] overflow-y-auto relative border-t-4 border-academic-blue mb-20" style="zoom: 1.2;">
-                                    ${content}
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection6) {
-                        // Special layout for Section 6: 2 Floating Images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                                <!-- Floating Image 1 (Top Left) -->
-                                <img src="1000km-range.jpg" class="absolute top-[10%] left-[5%] w-64 md:w-[30rem] rounded-lg shadow-2xl float-img-1 z-0 object-cover border-4 border-white hidden md:block" alt="1000km Range">
-                                
-                                <!-- Floating Image 2 (Bottom Right) -->
-                                <img src="future-ev.jpg" class="absolute bottom-[10%] right-[5%] w-64 md:w-[30rem] rounded-lg shadow-2xl float-img-2 z-0 object-cover border-4 border-white hidden md:block" alt="Future EV">
-
-                                <!-- Central Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 max-w-4xl max-h-[70%] overflow-y-auto relative border-t-4 border-academic-blue" style="zoom: 1.5;">
-                                    ${content}
-                                </div>
-                            </div>
-                        `;
-                    } else if (isSection7) {
-                        // Special layout for Section 7: Top-Bottom with 2 images
-                        zoomCard.className = 'relative w-[95vw] h-[90vh] flex items-center justify-center transform transition-all duration-300 scale-90 opacity-0 pointer-events-none';
-                        
-                        zoomCard.innerHTML = `
-                            <div class="pointer-events-auto relative w-full h-full flex flex-col items-center justify-center gap-4 p-8">
-                                <!-- Top: Content Card -->
-                                <div class="bg-white p-8 rounded-lg shadow-2xl z-10 w-full max-w-4xl overflow-y-auto border-t-4 border-green-600" style="zoom: 1.2; max-height: 40%;">
-                                    ${content}
-                                </div>
-                                
-                                <!-- Bottom: Images Side-by-Side -->
-                                <div class="w-full flex-1 flex flex-row items-center justify-center gap-8 min-h-0">
-                                    <!-- Image 1: Framework -->
-                                    <div class="flex-1 h-full flex items-center justify-center">
-                                        <img src="sustainability-framework.jpg" class="rounded-lg shadow-2xl object-contain max-h-[90%] max-w-full border-4 border-white float-img-2" alt="Sustainability Framework">
-                                    </div>
-                                    
-                                    <!-- Image 2: Recycling -->
-                                    <div class="flex-1 h-full flex items-center justify-center">
-                                        <img src="recycling-methods.jpg" class="rounded-lg shadow-2xl object-contain max-h-[90%] max-w-full border-4 border-white float-img-1" alt="Recycling Methods">
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        // Default layout
-                        zoomCard.innerHTML = `<div class="p-8 h-full" style="zoom: 1.5;">${content}</div>`;
+                    // Clone content
+                    let content = article.innerHTML;
+                    
+                    // Adjust zoom for specific sections
+                    // 1.5 = 150% size (Proportional scaling for EVERYTHING: text, images, layout)
+                    let zoomLevel = 1.5; 
+                    
+                    // If you want specific sections to be even larger/smaller, adjust here:
+                    if (isSection2 || isSection3) {
+                        zoomLevel = 1.3; // Example: Scale these up to 160% proportionally
                     }
+
+                    // Use CSS zoom for proportional scaling (works in Chrome/Edge/Safari)
+                    zoomCard.innerHTML = `<div class="p-8 h-full" style="zoom: ${zoomLevel};">${content}</div>`;
                     
                     // Show
                     overlay.classList.remove('hidden');
